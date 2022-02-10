@@ -1,0 +1,28 @@
+# DataSource Config
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/eblog?useSSL=true&useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
+    username: root
+    password: 7012+2
+    hikari:
+      # ????
+      pool-name: DateHikariCP
+      # ???????
+      minimum-idle: 5
+      # ????? ??10
+      maximum-pool-size: 10
+      # ????????????
+      auto-commit: true
+      # ???????? 0?????? ??1800000 ?30???
+      max-lifetime: 1800000
+      # ?????? ??30000?30??
+      connection-timeout: 30000
+      # ?????????????
+      connection-test-query: select 1
+#  freemarker:
+#    settings:
+#      classic_compatible: true
+#      datetime_format: yyyy-MM-dd HH:mm
+#      number_format: 0.##
+
