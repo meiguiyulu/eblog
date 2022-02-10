@@ -1,7 +1,9 @@
 package com.lyj.eblog.service;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.lyj.eblog.Vo.PostVo;
 import com.lyj.eblog.pojo.Post;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -28,4 +30,6 @@ public interface IPostService extends IService<Post> {
      */
     IPage paging(Page page, Long categoryId, Long userId, Integer level,
                  Boolean recommend, String order);
+
+    PostVo selectOnePost(QueryWrapper<Post> wrapper);
 }

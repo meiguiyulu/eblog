@@ -22,4 +22,18 @@
         id, content, parent_id, post_id, user_id, vote_up, vote_down, level, status, created, modified
     </sql>
 
+    <select id="selectComments" resultType="com.lyj.eblog.Vo.CommentVo">
+        SELECT
+            c.*,
+
+            u.id AS authorId,
+            u.username AS authorName,
+            u.avatar AS authorAvatar
+        FROM
+            m_comment c
+                LEFT JOIN m_user u ON c.user_id = u.id
+
+            ${ew.customSqlSegment}
+    </select>
+
 </mapper>

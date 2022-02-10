@@ -3,6 +3,7 @@ package com.lyj.eblog.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.lyj.eblog.Vo.PostVo;
 import com.lyj.eblog.pojo.Post;
 import com.lyj.eblog.mapper.PostMapper;
 import com.lyj.eblog.service.IPostService;
@@ -40,5 +41,10 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements IP
                 .gt(level > 0, "level", 0)
                 .orderByDesc(order != null, order);
         return postMapper.selectPosts(page, wrapper);
+    }
+
+    @Override
+    public PostVo selectOnePost(QueryWrapper<Post> wrapper) {
+        return postMapper.selectOnePost(wrapper);
     }
 }

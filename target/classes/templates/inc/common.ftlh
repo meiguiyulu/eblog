@@ -31,7 +31,7 @@
         </a>
         <h2>
             <a class="layui-badge">${post.categoryName}</a>
-            <a href="jie/detail.html">${post.title}</a>
+            <a href="/post/${post.id}">${post.title}</a>
         </h2>
         <div class="fly-list-info">
             <a href="/user/${post.authorId}" link>
@@ -45,7 +45,8 @@
         </span>
         </div>
         <div class="fly-list-badge">
-            <!--<span class="layui-badge layui-bg-red">精帖</span>-->
+            <#if post.level gt 0><span class="layui-badge layui-bg-black">置顶</span></#if>
+            <#if post.recommend><span class="layui-badge layui-bg-red">精帖</span></#if>
         </div>
     </li>
 </#macro>
