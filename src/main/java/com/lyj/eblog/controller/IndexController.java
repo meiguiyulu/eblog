@@ -18,7 +18,9 @@ public class IndexController extends BaseController{
 
         Page page = new Page(pn, size);
         /*参数：1分页信息 2分类 3用户 4置顶 5精选 6排序*/
-        IPage results = postService.paging(page, null, );
+        IPage results = postService.paging(page, null, null, null, null, "created");
+        /*分页的数据*/
+        request.setAttribute("pageData", results);
 
         /*默认首页的id是0*/
         request.setAttribute("currentCategoryId", 0);

@@ -26,4 +26,22 @@
         id, title, content, edit_mode, category_id, user_id, vote_up, vote_down, view_count, comment_count, recommend, level, status, created, modified
     </sql>
 
+    <select id="selectPosts" resultType="com.lyj.eblog.Vo.PostVo">
+        SELECT
+            p.*,
+
+            u.id AS authorId,
+            u.username AS authorName,
+            u.avatar AS authorAvatar,
+
+            c.id AS categoryId,
+            c.name AS categoryName
+        FROM
+            m_post p
+                LEFT JOIN m_user u ON p.user_id = u.id
+                LEFT JOIN m_category c ON p.category_id = c.id
+        ${ew.customSqlSegment}
+
+    </select>
+
 </mapper>
