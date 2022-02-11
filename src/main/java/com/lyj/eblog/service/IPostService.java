@@ -32,4 +32,9 @@ public interface IPostService extends IService<Post> {
                  Boolean recommend, String order);
 
     PostVo selectOnePost(QueryWrapper<Post> wrapper);
+
+    /**
+     * 本周热议
+     */
+    void initWeekRank();
 }

@@ -3,6 +3,7 @@ package com.lyj.eblog.config;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.lyj.eblog.pojo.Category;
 import com.lyj.eblog.service.ICategoryService;
+import com.lyj.eblog.service.IPostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -25,6 +26,9 @@ public class ContextStartUp implements ApplicationRunner, ServletContextAware {
 
     ServletContext servletContext;
 
+    @Autowired
+    IPostService postService;
+
     @Override
     public void run(ApplicationArguments args) throws Exception {
 
@@ -32,6 +36,12 @@ public class ContextStartUp implements ApplicationRunner, ServletContextAware {
                 .eq("status", 0)
         );
         servletContext.setAttribute("categories", categories);
+
+        /*本周热议
+        *
+        * 项目启功的时候便初始化
+        * */
+        postService.initWeekRank();
     }
 
     @Override
