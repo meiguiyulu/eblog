@@ -94,6 +94,51 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements IP
     }
 
     /**
+     * 评论数增加以后自动更新本周热议功能
+     * @param postId
+     * @param isIncr
+     */
+    @Override
+    public void incrCommentCountAndUnionForWeekRank(long postId, boolean isIncr) {
+        String  currentKey = "day:rank:" + DateUtil.format(new Date(), DatePattern.PURE_DATE_FORMAT);
+        redisUtil.zIncrementScore(currentKey, postId, isIncr? 1: -1);
+
+        Post post = this.getById(postId);
+
+        // 7天后自动过期(15号发表，7-（18-15）=4)
+        long between = DateUtil.between(new Date(), post.getCreated(), DateUnit.DAY);
+        long expireTime = (7 - between) * 24 * 60 * 60; // 有效时间
+
+        // 缓存这篇文章的基本信息
+        this.hashCachePostInformation(post, expireTime);
+
+        // 重新做并集
+        this.zunionAndStoredLast7DayForWeekRank();
+    }
+
+    /**
+     * 阅读量加1
+     * @param postVo
+     */
+    @Override
+    public void putViewCount(PostVo postVo) {
+        String key = "rank:post:" + postVo.getId();
+
+        /*1 从缓存中获取viewCount(阅读量)*/
+        Integer viewCount = (Integer) redisUtil.hget(key, "post:viewCount");
+
+        /*2 如果没有 就从数据库中获取 再加1*/
+        if (viewCount !=null) {
+            postVo.setViewCount(viewCount + 1);
+        } else {
+            postVo.setViewCount(postVo.getViewCount() + 1);
+        }
+
+        /*3 同步到缓存中*/
+        redisUtil.hset(key, "post:viewCount", postVo.getViewCount());
+    }
+
+    /**
      * 本周合并每日评论数量操作
      */
     private void zunionAndStoredLast7DayForWeekRank() {
@@ -126,4 +171,7 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements IP
             redisUtil.hset(key, "post:viewCount", post.getViewCount(), expireTime);
         }
     }
+
+
+
 }

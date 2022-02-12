@@ -45,6 +45,11 @@ public class PostController extends BaseController{
                 .eq("p.id", id));
         Assert.notNull(postVo, "文章已被删除");
 
+        /**
+         * 阅读量加1
+         * */
+        postService.putViewCount(postVo);
+
 
         /*评论
         *

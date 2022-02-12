@@ -121,5 +121,7 @@
     <orderEntry type="library" name="Maven: p6spy:p6spy:3.8.6" level="project" />
     <orderEntry type="library" name="Maven: org.apache.commons:commons-lang3:3.9" level="project" />
     <orderEntry type="library" name="Maven: cn.hutool:hutool-all:5.7.20" level="project" />
+    <orderEntry type="library" name="Maven: com.github.axet:kaptcha:0.0.9" level="project" />
+    <orderEntry type="library" name="Maven: com.jhlabs:filters:2.0.235" level="project" />
   </component>
 </module>

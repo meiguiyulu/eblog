@@ -79,7 +79,7 @@
                                 </div>
 
                                 <div class="detail-hits">
-                                    <span>timeAgo(comment.created)</span>
+                                    <span>${timeAgo(comment.created)}</span>
                                 </div>
                             </div>
                             <div class="detail-body jieda-body photos">
