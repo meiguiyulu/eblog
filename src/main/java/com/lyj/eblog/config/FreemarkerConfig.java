@@ -1,5 +1,6 @@
 package com.lyj.eblog.config;
 
+import com.jagregory.shiro.freemarker.ShiroTags;
 import com.lyj.eblog.templates.HotsTemplate;
 import com.lyj.eblog.templates.PostsTemplate;
 import com.lyj.eblog.templates.TimeAgoMethod;
@@ -26,6 +27,7 @@ public class FreemarkerConfig {
         configuration.setSharedVariable("timeAgo", new TimeAgoMethod());
         configuration.setSharedVariable("posts", postsTemplate);
         configuration.setSharedVariable("hots", hotsTemplate);
+        configuration.setSharedVariable("shiro", new ShiroTags());
     }
 
 }

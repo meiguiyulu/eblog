@@ -1,7 +1,9 @@
 package com.lyj.eblog.service;
 
+import com.lyj.eblog.common.lang.Result;
 import com.lyj.eblog.pojo.User;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.lyj.eblog.shiro.AccountProfile;
 
 /**
  * <p>
@@ -13,4 +15,9 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IUserService extends IService<User> {
 
+    /*注册功能*/
+    Result register(User user);
+
+    /*登录*/
+    AccountProfile login(String username, String password);
 }
