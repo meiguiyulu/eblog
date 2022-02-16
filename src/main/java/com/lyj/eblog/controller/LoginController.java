@@ -114,11 +114,9 @@ public class LoginController extends BaseController {
     }
 
     /*注销*/
-    @ResponseBody
     @RequestMapping("/user/logout")
     public String logout() {
         SecurityUtils.getSubject().logout();
         return "redirect:/";
     }
-
 }

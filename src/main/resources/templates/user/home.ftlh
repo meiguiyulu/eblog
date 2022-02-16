@@ -9,7 +9,7 @@
       ${user.username}
       <i class="iconfont icon-nan"></i>
       <!-- <i class="iconfont icon-nv"></i>  -->
-      <i class="layui-badge fly-badge-vip">VIP3</i>
+<#--      <i class="layui-badge fly-badge-vip">VIP3</i>-->
       <!--
       <span style="color:#c00;">（管理员）</span>
       <span style="color:#5FB878;">（社区之光）</span>
