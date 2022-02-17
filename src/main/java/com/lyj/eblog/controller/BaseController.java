@@ -1,6 +1,7 @@
 package com.lyj.eblog.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.lyj.eblog.config.WsConfig;
 import com.lyj.eblog.service.*;
 import com.lyj.eblog.shiro.AccountProfile;
 import org.apache.shiro.SecurityUtils;
@@ -33,6 +34,9 @@ public class BaseController {
 
     @Autowired
     ICategoryService categoryService;
+
+    @Autowired
+    WsService wsService;
 
     public Page getPage() {
         int pn = ServletRequestUtils.getIntParameter(request, "pn", 1);

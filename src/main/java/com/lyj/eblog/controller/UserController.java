@@ -8,6 +8,7 @@ import cn.hutool.crypto.SecureUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.lyj.eblog.Vo.UserMessageVo;
 import com.lyj.eblog.common.lang.Result;
 import com.lyj.eblog.pojo.Post;
 import com.lyj.eblog.pojo.User;
@@ -24,6 +25,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -173,9 +175,20 @@ public class UserController extends BaseController{
     /*我的消息*/
     @GetMapping("/user/mess")
     public String message() {
-        IPage page = userMessageService.paging(getPage(), new QueryWrapper<UserMessage>()
+        IPage<UserMessageVo> page = userMessageService.paging(getPage(), new QueryWrapper<UserMessage>()
                 .eq("to_user_id", getProfileId())
                 .orderByDesc("created"));
+        request.setAttribute("pageData", page);
+        // 把消息改成已读状态
+        List<Long> ids = new ArrayList<>();
+        for(UserMessageVo userMessageVo : page.getRecords()) {
+            if(userMessageVo.getStatus() == 0) {
+                ids.add(userMessageVo.getId());
+            }
+        }
+        // 批量修改成已读
+        userMessageService.updateToReaded(ids);
+
         request.setAttribute("pageData", page);
         return "/user/message";
     }

@@ -172,7 +172,7 @@ public class PostController extends BaseController {
     }
 
     @ResponseBody
-    @Transactional
+    /*@Transactional*/
     @PostMapping("/post/delete")
     public Result delete(Long id) {
         Post post = postService.getById(id);
@@ -192,8 +192,9 @@ public class PostController extends BaseController {
         return Result.success().action("/user/index");
     }
 
+    /*回复评论*/
     @ResponseBody
-    @Transactional
+/*    @Transactional*/
     @PostMapping("/post/reply/")
     public Result reply(Long jid, String content) {
         Assert.notNull(jid, "找不到对应的文章");
@@ -234,8 +235,8 @@ public class PostController extends BaseController {
             message.setStatus(0);
             userMessageService.save(message);
 
-/*            // 即时通知作者（websocket）
-            wsService.sendMessCountToUser(message.getToUserId());*/
+            // 即时通知作者（websocket）
+            wsService.sendMessCountToUser(message.getToUserId());
         }
 
         // 通知被@的人，有人回复了你的文章
@@ -255,8 +256,8 @@ public class PostController extends BaseController {
                 message.setCreated(new Date());
                 message.setStatus(0);
                 userMessageService.save(message);
-
                 // 即时通知被@的用户
+/*                wsService.sendMessCountToUser(message.getToUserId());*/
             }
         }
         return Result.success().action("/post/" + post.getId());

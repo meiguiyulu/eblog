@@ -110,7 +110,6 @@
                                     回复
                                 </span>
                                     <div class="jieda-admin">
-                                        <span type="edit">编辑</span>
                                         <span type="del">删除</span>
                                     </div>
                                 </div>
@@ -120,7 +119,7 @@
                     <@paging commentResults></@paging>
 
                     <div class="layui-form layui-form-pane">
-                        <form action="/jie/reply/" method="post">
+                        <form action="/post/reply/" method="post">
                             <div class="layui-form-item layui-form-text">
                                 <a name="comment"></a>
                                 <div class="layui-input-block">
