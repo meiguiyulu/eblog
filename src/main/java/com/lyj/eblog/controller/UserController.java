@@ -174,16 +174,18 @@ public class UserController extends BaseController{
 
     /*我的消息*/
     @GetMapping("/user/mess")
-    public String message() {
+    public String mess() {
+
         IPage<UserMessageVo> page = userMessageService.paging(getPage(), new QueryWrapper<UserMessage>()
                 .eq("to_user_id", getProfileId())
-                .orderByDesc("created"));
-        request.setAttribute("pageData", page);
+                .orderByDesc("created")
+        );
+
         // 把消息改成已读状态
         List<Long> ids = new ArrayList<>();
-        for(UserMessageVo userMessageVo : page.getRecords()) {
-            if(userMessageVo.getStatus() == 0) {
-                ids.add(userMessageVo.getId());
+        for(UserMessageVo messageVo : page.getRecords()) {
+            if(messageVo.getStatus() == 0) {
+                ids.add(messageVo.getId());
             }
         }
         // 批量修改成已读

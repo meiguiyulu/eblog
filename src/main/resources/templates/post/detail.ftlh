@@ -1,8 +1,8 @@
-<#include "/inc/layout.ftlh"/>
+<#include "/inc/layout.ftlh" />
 
-<@layout "博客分类">
+<@layout "博客详情">
 
-    <#include "/inc/header-panel.ftlh"/>
+    <#include "/inc/header-panel.ftlh" />
 
     <div class="layui-container">
         <div class="layui-row layui-col-space15">
@@ -17,6 +17,7 @@
                         <#if post.recommend><span class="layui-badge layui-bg-red">精帖</span></#if>
 
                         <div class="fly-admin-box" data-id="${post.id}">
+
                             <#if post.userId == profile.id>
                             <#--发布者删除-->
                                 <span class="layui-btn layui-btn-xs jie-admin" type="del">删除</span>
@@ -41,17 +42,13 @@
                             </@shiro.hasRole>
                         </div>
                         <span class="fly-list-nums">
-                        <a href="#comment">
-                            <i class="iconfont" title="回答">&#xe60c;</i>
-                            ${post.commentCount}
-                        </a>
-                        <i class="iconfont" title="人气">&#xe60b;</i> ${post.viewCount}
-                    </span>
+            <a href="#comment"><i class="iconfont" title="回答">&#xe60c;</i> ${post.commentCount}</a>
+            <i class="iconfont" title="人气">&#xe60b;</i> ${post.viewCount}
+          </span>
                     </div>
                     <div class="detail-about">
                         <a class="fly-avatar" href="/user/${post.authorId}">
-                            <img src="${post.authorAvatar}"
-                                 alt="${post.authorName}">
+                            <img src="${post.authorAvatar}" alt="${post.authorName}">
                         </a>
                         <div class="fly-detail-user">
                             <a href="/user/${post.authorId}" class="fly-link">
@@ -59,10 +56,12 @@
                             </a>
                             <span>${timeAgo(post.created)}</span>
                         </div>
+
                         <div class="detail-hits" id="LAY_jieAdmin" data-id="${post.id}">
-                            <span class="layui-btn layui-btn-xs jie-admin" type="edit"><a
-                                        href="/post/edit?id=${post.id}">编辑此贴</a></span>
+                            <#if profile.id == post.userId><span class="layui-btn layui-btn-xs jie-admin" type="edit"><a
+                                        href="/post/edit?id=${post.id}">编辑此贴</a></span></#if>
                         </div>
+
                     </div>
                     <div class="detail-body photos">
                         ${post.content}
@@ -75,20 +74,19 @@
                     </fieldset>
 
                     <ul class="jieda" id="jieda">
-                        <#list commentResults.records as comment>
+                        <#list pageData.records as comment>
                             <li data-id="${comment.id}" class="jieda-daan">
                                 <a name="item-${comment.id}"></a>
                                 <div class="detail-about detail-about-reply">
-                                    <a class="fly-avatar" href="/user/${comment.authorId}">
-                                        <img src="${comment.authorAvatar}"
-                                             alt="${comment.authorName}">
+                                    <a class="fly-avatar" href="/user/${post.authorId}">
+                                        <img src="${comment.authorAvatar}" alt="${comment.authorName}">
                                     </a>
                                     <div class="fly-detail-user">
-                                        <a href="" class="fly-link">
+                                        <a href="/user/${comment.authorId}" class="fly-link">
                                             <cite>${comment.authorName}</cite>
                                         </a>
 
-                                        <#if comment.userId == post.userId>
+                                        <#if comment.user_id == post.user_id>
                                             <span>(楼主)</span>
                                         </#if>
                                     </div>
@@ -98,17 +96,17 @@
                                     </div>
                                 </div>
                                 <div class="detail-body jieda-body photos">
-                                    <p>${comment.content}</p>
+                                    ${comment.content}
                                 </div>
                                 <div class="jieda-reply">
-                              <span class="jieda-zan zanok" type="zan">
-                                <i class="iconfont icon-zan"></i>
-                                <em>${comment.voteUp}</em>
-                              </span>
+                          <span class="jieda-zan zanok" type="zan">
+                            <i class="iconfont icon-zan"></i>
+                            <em>${comment.voteUp}</em>
+                          </span>
                                     <span type="reply">
-                                    <i class="iconfont icon-svgmoban53"></i>
-                                    回复
-                                </span>
+                            <i class="iconfont icon-svgmoban53"></i>
+                            回复
+                          </span>
                                     <div class="jieda-admin">
                                         <span type="del">删除</span>
                                     </div>
@@ -116,7 +114,8 @@
                             </li>
                         </#list>
                     </ul>
-                    <@paging commentResults></@paging>
+
+                    <@paging pageData></@paging>
 
                     <div class="layui-form layui-form-pane">
                         <form action="/post/reply/" method="post">
@@ -136,10 +135,9 @@
                     </div>
                 </div>
             </div>
-            <#include "/inc/right.ftlh"/>
+            <#include "/inc/right.ftlh" />
         </div>
     </div>
-
     <script>
         layui.cache.page = 'jie';
 

@@ -1,7 +1,3 @@
-<#--
-    前端页面的模板
--->
-
 <#macro layout title>
     <!DOCTYPE html>
     <html>
@@ -20,29 +16,30 @@
         <script src="/res/js/stomp.js"></script>
         <script src="/res/js/im.js"></script>
         <script src="/res/js/chat.js"></script>
+
     </head>
     <body>
 
-    <#include "common.ftlh" />
-    <#include "header.ftlh" />
+    <#include "/inc/common.ftlh" />
+    <#include "/inc/header.ftlh" />
 
     <#nested >
 
-    <#include "footer.ftlh" />
+    <#include "/inc/footer.ftlh" />
 
     <script>
         // layui.cache.page = '';
         layui.cache.user = {
             username: '${(profile.username)!"游客"}'
-            , uid: ${(profile.id)!"-1"}
-            , avatar: '${(profile.avatar)!"/res/images/avatar/00.jpg"}'
-            , experience: 83
-            , sex: '${(profile.sex)!"男"}'
+            ,uid: ${(profile.id)!"-1"}
+            ,avatar: '${(profile.avatar)!"/res/images/avatar/00.jpg"}'
+            ,experience: 83
+            ,sex: '${(profile.sex)!"男"}'
         };
 
         layui.config({
             version: "3.0.0"
-            , base: '/res/mods/' //这里实际使用时，建议改成绝对路径
+            ,base: '/res/mods/' //这里实际使用时，建议改成绝对路径
         }).extend({
             fly: 'index'
         }).use('fly');
@@ -72,9 +69,8 @@
                 stompClient = Stomp.over(socket);
                 stompClient.connect({}, function (frame) {
                     stompClient.subscribe("/user/" + ${profile.id} + "/messCount", function (res) {
-
+                    <#--stompClient.subscribe("/user/" + ${(profile.id)!"-1"} + "/messCount", function (res) {-->
                         console.log(res);
-
                         // 弹窗
                         showTips(res.body);
                     })
@@ -86,4 +82,5 @@
 
     </body>
     </html>
+
 </#macro>

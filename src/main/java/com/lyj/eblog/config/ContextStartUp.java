@@ -24,6 +24,7 @@ public class ContextStartUp implements ApplicationRunner, ServletContextAware {
     @Autowired
     ICategoryService categoryService;
 
+
     ServletContext servletContext;
 
     @Autowired

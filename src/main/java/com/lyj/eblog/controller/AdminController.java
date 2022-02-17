@@ -1,6 +1,5 @@
 package com.lyj.eblog.controller;
 
-import com.fasterxml.jackson.databind.ser.Serializers;
 import com.lyj.eblog.common.lang.Result;
 import com.lyj.eblog.pojo.Post;
 import org.springframework.stereotype.Controller;

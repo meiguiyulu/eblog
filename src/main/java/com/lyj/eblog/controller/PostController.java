@@ -65,13 +65,13 @@ public class PostController extends BaseController {
 
         request.setAttribute("currentCategoryId", postVo.getCategoryId());
         request.setAttribute("post", postVo);
-        request.setAttribute("commentResults", commentResults);
+        request.setAttribute("pageData", commentResults);
         return "post/detail";
     }
 
     /*判断用户有没有收藏这篇文章*/
     @ResponseBody
-    @PostMapping("/collection/find")
+    @PostMapping("/collection/find/")
     public Result collectionFind(Long pid) {
 
         long count = userCollectionService.count(new QueryWrapper<UserCollection>()
@@ -83,7 +83,7 @@ public class PostController extends BaseController {
 
     /*收藏文章*/
     @ResponseBody
-    @PostMapping("/collection/add")
+    @PostMapping("/collection/add/")
     public Result collectionAdd(Long pid) {
 
         Post post = postService.getById(pid);
@@ -111,7 +111,7 @@ public class PostController extends BaseController {
 
     /*取消收藏文章*/
     @ResponseBody
-    @PostMapping("/collection/remove")
+    @PostMapping("/collection/remove/")
     public Result collectionRemove(Long pid) {
         /*判断文章存不存在*/
         Post post = postService.getById(pid);
@@ -172,7 +172,7 @@ public class PostController extends BaseController {
     }
 
     @ResponseBody
-    /*@Transactional*/
+    @Transactional
     @PostMapping("/post/delete")
     public Result delete(Long id) {
         Post post = postService.getById(id);
@@ -194,7 +194,7 @@ public class PostController extends BaseController {
 
     /*回复评论*/
     @ResponseBody
-/*    @Transactional*/
+    @Transactional
     @PostMapping("/post/reply/")
     public Result reply(Long jid, String content) {
         Assert.notNull(jid, "找不到对应的文章");
@@ -256,8 +256,9 @@ public class PostController extends BaseController {
                 message.setCreated(new Date());
                 message.setStatus(0);
                 userMessageService.save(message);
+
                 // 即时通知被@的用户
-/*                wsService.sendMessCountToUser(message.getToUserId());*/
+
             }
         }
         return Result.success().action("/post/" + post.getId());
