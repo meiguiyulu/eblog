@@ -21,4 +21,28 @@
         id, from_user_id, to_user_id, post_id, comment_id, content, type, created, modified, status
     </sql>
 
+    <select id="selectMessage" resultType="com.lyj.eblog.Vo.UserMessageVo">
+        SELECT
+            m.*, (
+            SELECT
+                username
+            FROM
+                `m_user`
+            WHERE
+                id = m.from_user_id
+        ) AS fromUserName,
+            (
+                SELECT
+                    title
+                FROM
+                    `m_post`
+                WHERE
+                    id = m.post_id
+            ) AS postTitle
+        FROM
+            `m_user_message` m
+
+            ${ew.customSqlSegment}
+    </select>
+
 </mapper>

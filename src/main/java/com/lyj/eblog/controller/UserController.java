@@ -2,12 +2,16 @@ package com.lyj.eblog.controller;
 
 
 import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.crypto.SecureUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.lyj.eblog.common.lang.Result;
 import com.lyj.eblog.pojo.Post;
 import com.lyj.eblog.pojo.User;
+import com.lyj.eblog.pojo.UserMessage;
 import com.lyj.eblog.shiro.AccountProfile;
 import com.lyj.eblog.util.UploadUtil;
 import freemarker.template.utility.StringUtil;
@@ -21,6 +25,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -136,6 +141,63 @@ public class UserController extends BaseController{
         userService.updateById(user);
 
         return Result.success().action("/user/set");
+
+    }
+
+    /*用户中心*/
+    @GetMapping("/user/index")
+    public String index() {
+        return "/user/index";
+    }
+
+    /*发表的文章*/
+    @ResponseBody
+    @GetMapping("/user/public")
+    public Result userPublic() {
+        Page page = postService.page(getPage(), new QueryWrapper<Post>()
+                .eq("user_id", getProfileId())
+                .orderByDesc("created"));
+        return Result.success(page);
+    }
+
+    /*收藏的文章*/
+    @ResponseBody
+    @GetMapping("/user/collection")
+    public Result collection() {
+        IPage page = postService.page(getPage(), new QueryWrapper<Post>()
+                .inSql("id", "SELECT post_id FROM m_user_collection where user_id = " + getProfileId())
+        );
+        return Result.success(page);
+    }
+
+    /*我的消息*/
+    @GetMapping("/user/mess")
+    public String message() {
+        IPage page = userMessageService.paging(getPage(), new QueryWrapper<UserMessage>()
+                .eq("to_user_id", getProfileId())
+                .orderByDesc("created"));
+        request.setAttribute("pageData", page);
+        return "/user/message";
+    }
+
+    @ResponseBody
+    @PostMapping("/message/remove")
+    public Result messageRemove(Long id,
+                                @RequestParam(defaultValue = "false") Boolean all) {
+
+        boolean remove = userMessageService.remove(new QueryWrapper<UserMessage>()
+                .eq("to_user_id", getProfileId())
+                .eq(!all, "id", id));
+        return remove ? Result.success("删除成功") : Result.fail("删除失败");
+    }
+
+    @ResponseBody
+    @RequestMapping("/message/nums")
+    public Map msgNums(){
+        long count = userMessageService.count(new QueryWrapper<UserMessage>()
+                .eq("to_user_id", getProfileId())
+                .eq("status", 0));
+        return MapUtil.builder("status", 0).put("count", (int) count).build();
 
     }
 

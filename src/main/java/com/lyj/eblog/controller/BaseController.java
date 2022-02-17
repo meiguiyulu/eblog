@@ -3,6 +3,7 @@ package com.lyj.eblog.controller;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.lyj.eblog.service.ICommentService;
 import com.lyj.eblog.service.IPostService;
+import com.lyj.eblog.service.IUserMessageService;
 import com.lyj.eblog.service.IUserService;
 import com.lyj.eblog.shiro.AccountProfile;
 import org.apache.shiro.SecurityUtils;
@@ -26,6 +27,9 @@ public class BaseController {
 
     @Autowired
     IUserService userService;
+
+    @Autowired
+    IUserMessageService userMessageService;
 
 /*    @Autowired
     UserMessageService messageService;

@@ -1,6 +1,7 @@
 package com.lyj.eblog.shiro;
 
 import com.lyj.eblog.service.IUserService;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
@@ -24,6 +25,7 @@ public class AccountRealm extends AuthorizingRealm {
         UsernamePasswordToken passwordToken = (UsernamePasswordToken) token;
         AccountProfile profile =
                 userService.login(passwordToken.getUsername(), String.valueOf( passwordToken.getPassword()));
+        SecurityUtils.getSubject().getSession().setAttribute("profile", profile);
         SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(profile, token.getCredentials(), getName());
 
         return info;

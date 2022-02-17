@@ -1,5 +1,8 @@
 package com.lyj.eblog.service;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.lyj.eblog.pojo.UserMessage;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -13,4 +16,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IUserMessageService extends IService<UserMessage> {
 
+    IPage paging(Page page, QueryWrapper<UserMessage> wrapper);
 }

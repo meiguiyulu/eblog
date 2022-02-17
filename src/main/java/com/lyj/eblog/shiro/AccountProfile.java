@@ -18,8 +18,8 @@ public class AccountProfile implements Serializable {
     private String gender;
     private Date created;
 
-/*    public String getSex() {
+    public String getSex() {
         return "0".equals(gender) ? "女" : "男";
-    }*/
+    }
 
 }
