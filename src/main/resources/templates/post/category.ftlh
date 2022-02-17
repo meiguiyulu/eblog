@@ -18,10 +18,10 @@
                         <span class="fly-mid"></span>
                         <a href="">精华</a>
                         <span class="fly-filter-right layui-hide-xs">
-            <a href="" class="layui-this">按最新</a>
-            <span class="fly-mid"></span>
-            <a href="">按热议</a>
-          </span>
+                            <a href="" class="layui-this">按最新</a>
+                            <span class="fly-mid"></span>
+                            <a href="">按热议</a>
+                       </span>
                     </div>
 
 
@@ -41,7 +41,20 @@
         </div>
     </div>
 
-    <#include "/inc/footer.ftlh" />
+    <script>
+        layui.cache.page = 'jie';
+
+        $(function () {
+            layui.use(['fly', 'face'], function () {
+                var fly = layui.fly;
+                $('.detail-body').each(function () {
+                    var othis = $(this), html = othis.html();
+                    othis.html(fly.content(html));
+                });
+            });
+        });
+
+    </script>
 
 </@layout>
 

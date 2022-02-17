@@ -1,10 +1,7 @@
 package com.lyj.eblog.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.lyj.eblog.service.ICommentService;
-import com.lyj.eblog.service.IPostService;
-import com.lyj.eblog.service.IUserMessageService;
-import com.lyj.eblog.service.IUserService;
+import com.lyj.eblog.service.*;
 import com.lyj.eblog.shiro.AccountProfile;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,26 +28,8 @@ public class BaseController {
     @Autowired
     IUserMessageService userMessageService;
 
-/*    @Autowired
-    UserMessageService messageService;
-
     @Autowired
-    UserCollectionService collectionService;
-
-    @Autowired
-    CategoryService categoryService;
-
-    @Autowired
-    WsService wsService;
-
-    @Autowired
-    SearchService searchService;
-
-    @Autowired
-    AmqpTemplate amqpTemplate;
-
-    @Autowired
-    ChatService chatService;*/
+    IUserCollectionService userCollectionService;
 
     public Page getPage() {
         int pn = ServletRequestUtils.getIntParameter(request, "pn", 1);
