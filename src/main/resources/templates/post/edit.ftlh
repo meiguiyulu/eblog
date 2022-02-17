@@ -1,7 +1,7 @@
 <#include "/inc/layout.ftlh" />
 
 <@layout "添加或编辑博客">
-<div class="layui-container fly-marginTop">
+  <div class="layui-container fly-marginTop">
     <div class="fly-panel" pad20 style="padding-top: 5px;">
       <div class="layui-form layui-form-pane">
         <div class="layui-tab layui-tab-brief" lay-filter="user">
@@ -47,7 +47,7 @@
     </div>
   </div>
 
-<script>
-  layui.cache.page = 'jie';
-</script>
+  <script>
+    layui.cache.page = 'jie';
+  </script>
 </@layout>
