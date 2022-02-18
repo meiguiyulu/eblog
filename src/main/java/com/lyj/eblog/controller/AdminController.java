@@ -1,5 +1,8 @@
 package com.lyj.eblog.controller;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.lyj.eblog.Vo.PostVo;
 import com.lyj.eblog.common.lang.Result;
 import com.lyj.eblog.pojo.Post;
 import org.springframework.stereotype.Controller;
@@ -21,18 +24,40 @@ public class AdminController extends BaseController {
         Post post = postService.getById(id);
         Assert.notNull(post, "该帖子已被删除");
 
-        if("delete".equals(field)) {
+        if ("delete".equals(field)) {
             postService.removeById(id);
             return Result.success();
 
-        } else if("status".equals(field)) {
+        } else if ("status".equals(field)) {
             post.setRecommend(rank == 1);
 
-        }  else if("stick".equals(field)) {
+        } else if ("stick".equals(field)) {
             post.setLevel(rank);
         }
         postService.updateById(post);
         return Result.success();
+    }
+
+    @ResponseBody
+    @PostMapping("/initEsData")
+    public Result initEsData() {
+        int size = 10000;
+        Page page = new Page();
+        page.setSize(size);
+
+        long total = 0;
+
+        for (int i = 1; i < 1000; i++) {
+            page.setCurrent(i);
+            IPage<PostVo> paging = postService.paging(page, null, null, null, null, null);
+            int num = searchService.initEsData(paging.getRecords());
+            total += num;
+            // 当一页查不出10000条的时候，说明是最后一页了
+            if (paging.getRecords().size() < size) {
+                break;
+            }
+        }
+        return Result.success("ES索引初始化成功，共 " + total + " 条记录！", null);
     }
 
 }

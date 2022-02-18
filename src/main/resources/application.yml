@@ -49,11 +49,22 @@ spring:
         max-idle: 200
         #最小空闲连接，默认0
         min-idle: 5
-#  freemarker:
-#    settings:
-#      classic_compatible: true
-#      datetime_format: yyyy-MM-dd HH:mm
-#      number_format: 0.##
+  elasticsearch:
+    uris: 127.0.0.1:9200
+
+  data:
+    elasticsearch:
+#      cluster-name: elasticsearch
+#      cluster-nodes: 127.0.0.1:9300
+      repositories:
+        enabled: true
+
+  rabbitmq:
+    stream:
+      username: guest
+      password: guest
+      host: localhost
+
 mybatis-plus:
   mapper-locations: classpath*:/mapper/**Mapper.xml
 file:

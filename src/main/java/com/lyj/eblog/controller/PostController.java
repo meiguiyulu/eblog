@@ -8,7 +8,9 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lyj.eblog.Vo.CommentVo;
 import com.lyj.eblog.Vo.PostVo;
 import com.lyj.eblog.common.lang.Result;
+import com.lyj.eblog.config.RabbitConfig;
 import com.lyj.eblog.pojo.*;
+import com.lyj.eblog.search.mq.PostMqIndexMessage;
 import com.lyj.eblog.util.ValidationUtil;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -167,6 +169,10 @@ public class PostController extends BaseController {
             tempPost.setCategoryId(post.getCategoryId());
             postService.updateById(tempPost);
         }
+
+        // 通知消息给mq，告知更新或添加
+        amqpTemplate.convertAndSend(RabbitConfig.es_exchage, RabbitConfig.es_bind_key,
+                new PostMqIndexMessage(post.getId(), PostMqIndexMessage.CREATE_OR_UPDATE));
 
         return Result.success().action("/post/" + post.getId());
     }

@@ -61,7 +61,6 @@
                             <#if profile.id == post.userId><span class="layui-btn layui-btn-xs jie-admin" type="edit"><a
                                         href="/post/edit?id=${post.id}">编辑此贴</a></span></#if>
                         </div>
-
                     </div>
                     <div class="detail-body photos">
                         ${post.content}
